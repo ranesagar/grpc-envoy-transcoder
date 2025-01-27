@@ -15,11 +15,28 @@ COPY go.mod go.sum ./
 # Download dependencies
 RUN go mod download
 
+# Ensure all required dependencies (including annotations) are added
+RUN go mod tidy
+
+# Copy the source code
+COPY . .
+
+# Download the required Protobuf files for annotations
+RUN mkdir -p google && \
+    git clone --depth=1 https://github.com/googleapis/googleapis.git googleapis && \
+    cp -r googleapis/google/api google && \
+    rm -rf googleapis
+
 # Copy the source code
 COPY . .
 
 # Generate gRPC code
-RUN protoc --go_out=. --go-grpc_out=. item.proto
+RUN protoc -I=./google -I=. --go_out=. --go-grpc_out=. item.proto
+
+RUN go mod tidy
+
+# Generate gRPC code
+# RUN protoc --go_out=. --go-grpc_out=. item.proto
 
 # Build the Go application
 RUN go build -o item_service .
