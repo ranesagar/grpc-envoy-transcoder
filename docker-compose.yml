@@ -9,6 +9,30 @@ services:
     networks:
       - grpc_network
 
+  envoy_proxy:
+    image: envoyproxy/envoy:v1.26-latest
+    # command: /usr/local/bin/envoy -c /etc/envoy/envoy.yaml --log-level debug
+    volumes:
+      - ./envoy_proxy/envoy.yaml:/etc/envoy/envoy.yaml
+      - ./envoy_proxy/descriptor.pb:/etc/envoy/descriptor.pb
+      - ./item_service/item.proto:/etc/envoy/item.proto  # Mount the .proto file
+    ports:
+      - "8080:8080"
+      - "9901:9901"
+    depends_on:
+      - item_service
+    networks:
+      - grpc_network
+
+  # client_service:
+  #   image: client_service
+  #   build:
+  #     context: ./client_service
+  #   depends_on:
+  #     - envoy_proxy
+  #   networks:
+  #     - grpc_network
+
 networks:
   grpc_network:
     driver: bridge

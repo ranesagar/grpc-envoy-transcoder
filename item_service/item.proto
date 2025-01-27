@@ -2,10 +2,16 @@ syntax = "proto3";
 
 package item;
 
-option go_package = "./generated"; // Local path for generated code
+option go_package = "./generated";
+
+import "google/api/annotations.proto";  // Required for HTTP annotations.
 
 service ItemService {
-  rpc GetItem(GetItemRequest) returns (Item);
+  rpc GetItem(GetItemRequest) returns (Item) {
+    option (google.api.http) = {
+      post: "/v1/item/get"
+    };
+  }
 }
 
 message GetItemRequest {
