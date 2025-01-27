@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  item_service:
+    image: item_service
+    build:
+      context: ./item_service
+    ports:
+      - "9090:9090"
+    networks:
+      - grpc_network
+
+networks:
+  grpc_network:
+    driver: bridge
