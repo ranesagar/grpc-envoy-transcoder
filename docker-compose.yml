@@ -6,20 +6,21 @@ services:
       context: ./item_service
     ports:
       - "9090:9090"
+    volumes:
+      - item_data_shared:/data  # Mount a named volume for /data
     networks:
       - grpc_network
 
   envoy_proxy:
     image: envoyproxy/envoy:v1.26-latest
     # command: /usr/local/bin/envoy -c /etc/envoy/envoy.yaml --log-level debug
-    volumes:
-      - ./envoy_proxy/envoy.yaml:/etc/envoy/envoy.yaml
-      - ./envoy_proxy/descriptor.pb:/etc/envoy/descriptor.pb
     ports:
       - "8080:8080"
       - "9901:9901"
     depends_on:
       - item_service
+    volumes:
+      - item_data_shared:/etc/envoy  # Share the same volume with envoy_proxy
     networks:
       - grpc_network
 
@@ -35,3 +36,6 @@ services:
 networks:
   grpc_network:
     driver: bridge
+
+volumes:
+  item_data_shared:

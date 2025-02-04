@@ -17,10 +17,16 @@ RUN go mod download
 
 # Copy the source code
 COPY . .
+RUN mkdir -p /data
 
 # Generate gRPC code
 RUN protoc -I=./proto --go_out=. --go-grpc_out=. ./proto/item.proto
+# Generate descriptor file
+RUN protoc -I=./proto/ --include_imports --include_source_info \
+    --descriptor_set_out=/data/descriptor.pb \
+    ./proto/item.proto
 
+RUN cp envoy.yaml /data/envoy.yaml
 # Build the Go application
 RUN go build -o item_service .
 
