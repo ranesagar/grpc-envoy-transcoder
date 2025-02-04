@@ -4,7 +4,6 @@ This project demonstrates a gRPC service exposed via Envoy Proxy, which translat
 
 ## Directory Structure
 - `item_service/`: Contains the gRPC service implementation.
-- `envoy_proxy/`: Contains the Envoy configuration files.
 - `client_service/`: Contains the gRPC client implementation.
     You can also run below commands from (3)
 - `docker-compose.yml`: Orchestrates the gRPC service, Envoy proxy, and client.
