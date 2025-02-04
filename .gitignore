@@ -25,7 +25,5 @@ go.work.sum
 .env
 
 # generated files/folders/binaries
-googleapis/
 **/generated/*
-**/google/*
 item_service/item_service
