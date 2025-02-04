@@ -21,17 +21,11 @@ RUN go mod tidy
 # Copy the source code
 COPY . .
 
-# Download the required Protobuf files for annotations
-RUN mkdir -p google && \
-    git clone --depth=1 https://github.com/googleapis/googleapis.git googleapis && \
-    cp -r googleapis/google/api google && \
-    rm -rf googleapis
-
 # Copy the source code
 COPY . .
 
 # Generate gRPC code
-RUN protoc -I=./google -I=. --go_out=. --go-grpc_out=. item.proto
+RUN protoc -I=./proto --go_out=. --go-grpc_out=. ./proto/item.proto
 
 RUN go mod tidy
 
