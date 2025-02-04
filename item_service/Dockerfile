@@ -15,28 +15,17 @@ COPY go.mod go.sum ./
 # Download dependencies
 RUN go mod download
 
-# Ensure all required dependencies (including annotations) are added
-RUN go mod tidy
-
-# Copy the source code
-COPY . .
-
 # Copy the source code
 COPY . .
 
 # Generate gRPC code
 RUN protoc -I=./proto --go_out=. --go-grpc_out=. ./proto/item.proto
 
-RUN go mod tidy
-
-# Generate gRPC code
-# RUN protoc --go_out=. --go-grpc_out=. item.proto
-
 # Build the Go application
 RUN go build -o item_service .
 
 # Expose the gRPC port
-# EXPOSE 9090
+EXPOSE 9090
 
 # Run the application
 CMD ["./item_service"]
