@@ -27,7 +27,7 @@ static_resources:
                       routes:
                         # Ensure this matches the correct route for transcoding
                         - match:
-                            prefix: /item.ItemService  # This is where we need the correct path
+                            prefix: /  # This is where we need the correct path
                           route:
                             cluster: grpc_service
                             timeout: 0s
@@ -66,5 +66,6 @@ static_resources:
               - endpoint:
                   address:
                     socket_address:
-                      address: item_service  # Use the Docker service name as the upstream address.
+                      # address: 127.0.0.1  # cloudrun
+                      address: item_service # locally
                       port_value: 9090  # Port of the upstream gRPC service.
