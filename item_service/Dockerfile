@@ -30,8 +30,10 @@ RUN cp envoy.yaml /data/envoy.yaml
 # Build the Go application
 RUN go build -o item_service .
 
+RUN mkdir /shared
+
 # Expose the gRPC port
 EXPOSE 9090
 
 # Run the application
-CMD ["./item_service"]
+CMD ["./run.sh"]
