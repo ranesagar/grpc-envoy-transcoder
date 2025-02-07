@@ -7,7 +7,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - item_data_shared:/data  # Mount a named volume for /data
+      - item_data_shared:/shared  # Mount a named volume for /shared
     networks:
       - grpc_network
 
