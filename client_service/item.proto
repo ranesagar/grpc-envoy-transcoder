@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package item;
+
+option go_package = "./generated"; // Local path for generated code
+
+service ItemService {
+  rpc GetItem(GetItemRequest) returns (Item);
+}
+
+message GetItemRequest {
+  string id = 1;
+}
+
+message Item {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}

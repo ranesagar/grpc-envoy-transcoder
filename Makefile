@@ -12,6 +12,16 @@ build:
 run:
 	docker-compose up
 
+test:
+	@echo Testing REST request..
+	curl -X POST http://localhost:8080/v1/item/get \
+		-H "Content-Type: application/json" \
+		-d '{"id": "123"}'
+
+	@echo Testing gRPC request..
+	grpcurl -plaintext -proto client_service/item.proto -d '{"id": "123"}' localhost:8080 item.ItemService/GetItem
+
+
 # Clean up Docker containers and images
 clean:
 	docker-compose down
